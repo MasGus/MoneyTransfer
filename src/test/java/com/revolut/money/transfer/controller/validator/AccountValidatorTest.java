@@ -22,12 +22,6 @@ public class AccountValidatorTest {
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
 
-
-    @Before
-    public void setUp() {
-        accountId = accountRepository.createAccount();
-    }
-
     @Test
     public void validateIdNonExistingAccountId() {
         expectedEx.expect(WrongAccountIdException.class);
@@ -80,6 +74,7 @@ public class AccountValidatorTest {
 
     @Test
     public void validateIdPositive() {
+        Long accountId = accountRepository.createAccount();
         validator.validateId(String.valueOf(accountId));
     }
 

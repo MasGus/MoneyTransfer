@@ -14,7 +14,11 @@
 | ------- | ----------- |
 | POST /account     | Create a new account. Returns id. |
 | GET /account/{id} | Returns account information by id. |
-| PUT /account/{id}/add?amount=amount | Add amount on account. |
-| PUT /account/{id}/subtract?amount=amount | Subtract amount from account. |
-| POST /account/{id}/transfer?recipientId=recipientId=recipientId&amount=amount | Transfer amount from one account to another. |
+| PUT /account/{id}/add, json body - {"amount" : amount} | Add amount on account. |
+| PUT /account/{id}/subtract, json body - {"amount" : amount}| Subtract amount from account. |
+| POST /account/{id}/transfer, json body - {"recipientId" : recipientId, "amount" : amount}  | Transfer amount from one account to another. |
 | DELETE /account/{id} | Delete account by id. |
+
+## Restrictions
+1. Account ID should be a positive Long type value.
+2. Amount should be a positive BigDecimal type value.

@@ -2,24 +2,17 @@ package com.revolut.money.transfer.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.revolut.money.transfer.controller.validator.AccountValidator;
 import com.revolut.money.transfer.entity.Account;
 import com.revolut.money.transfer.repository.AccountRepository;
-import com.revolut.money.transfer.repository.TransferTransactionRepository;
 import com.revolut.money.transfer.repository.impl.AccountRepositoryImpl;
-import com.revolut.money.transfer.repository.impl.TransferTransactionRepositoryImpl;
 import com.revolut.money.transfer.service.AccountService;
 import com.revolut.money.transfer.service.impl.AccountServiceImpl;
 import jersey.repackaged.com.google.common.collect.ImmutableMap;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
@@ -31,10 +24,10 @@ import java.math.BigDecimal;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountController {
     private static final String EXCEPTION_FIELD_NAME = "exception";
+    private static final String AMOUNT_FIELD_NAME = "amount";
     private Gson gson = new GsonBuilder().serializeNulls().create();
     private static AccountRepository accountRepository = AccountRepositoryImpl.INSTANCE;
-    private static TransferTransactionRepository transactionRepository = TransferTransactionRepositoryImpl.INSTANCE;
-    private static AccountService accountService = new AccountServiceImpl(accountRepository, transactionRepository);
+    private static AccountService accountService = new AccountServiceImpl(accountRepository);
     private static AccountValidator accountValidator = new AccountValidator(accountRepository);
 
     @POST
@@ -52,8 +45,9 @@ public class AccountController {
     @PUT
     @Path("/{id}/add")
     public Response add(@PathParam("id") String id,
-                        @QueryParam("amount") String amount) {
+                        String body) {
         try {
+            String amount = new JsonParser().parse(body).getAsJsonObject().get(AMOUNT_FIELD_NAME).getAsString();
             accountValidator.validateId(id);
             accountValidator.validateAmount(amount);
             accountService.add(Long.parseLong(id), new BigDecimal(amount));
@@ -67,8 +61,9 @@ public class AccountController {
     @PUT
     @Path("/{id}/subtract")
     public Response subtract(@PathParam("id") String id,
-                             @QueryParam("amount") String amount) {
+                             String body) {
         try {
+            String amount = new JsonParser().parse(body).getAsJsonObject().get(AMOUNT_FIELD_NAME).getAsString();
             accountValidator.validateId(id);
             accountValidator.validateAmount(amount);
             accountService.subtract(Long.parseLong(id), new BigDecimal(amount));
@@ -96,9 +91,11 @@ public class AccountController {
     @POST
     @Path("/{id}/transfer")
     public Response transfer(@PathParam("id") String senderId,
-                             @QueryParam("recipientId") String recipientId,
-                             @QueryParam("amount") String amount){
+                             String body){
         try {
+            JsonElement jsonElement = new JsonParser().parse(body);
+            String amount = jsonElement.getAsJsonObject().get(AMOUNT_FIELD_NAME).getAsString();
+            String recipientId = jsonElement.getAsJsonObject().get("recipientId").getAsString();
             accountValidator.validateId(senderId);
             accountValidator.validateId(recipientId);
             accountValidator.validateAmount(amount);

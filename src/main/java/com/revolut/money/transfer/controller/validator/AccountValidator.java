@@ -40,7 +40,7 @@ public class AccountValidator {
     }
 
     public void validateAmount(String amountString){
-        if(amountString == null || amountString.isEmpty()){
+        if(amountString.isEmpty()){
             throw new WrongAmountException(WRONG_AMOUNT_FORMAT);
         }
 

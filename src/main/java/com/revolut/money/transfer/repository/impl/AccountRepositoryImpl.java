@@ -59,12 +59,8 @@ public enum AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void transferAmount(Long senderId, Long recipientId, BigDecimal amount) {
-        synchronized (getAccount(senderId)) {
-            synchronized (getAccount(recipientId)) {
-                subtractAmount(senderId, amount);
-                addAmount(recipientId, amount);
-            }
-        }
+    public synchronized void transferAmount(Long senderId, Long recipientId, BigDecimal amount) {
+        subtractAmount(senderId, amount);
+        addAmount(recipientId, amount);
     }
 }
