@@ -2,8 +2,9 @@ package com.revolut.money.transfer.entity;
 
 import jersey.repackaged.com.google.common.base.MoreObjects;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Account {
     private Long id;
     private BigDecimal balance;

@@ -8,17 +8,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * @author Maria.Guseva
  */
-public class TransferTransactionRepositoryImpl implements TransferTransactionRepository {
-    private static volatile TransferTransactionRepository instance;
+public enum TransferTransactionRepositoryImpl implements TransferTransactionRepository {
+    INSTANCE;
+
     private static CopyOnWriteArrayList<TransferTransaction> transactionList = new CopyOnWriteArrayList<>();
 
-    private TransferTransactionRepositoryImpl(){}
-
-    public static synchronized TransferTransactionRepository getInstance() {
-        if (instance == null)
-            instance = new TransferTransactionRepositoryImpl();
-        return instance;
-    }
+    TransferTransactionRepositoryImpl(){}
 
     @Override
     public void addTransaction(TransferTransaction transaction) {

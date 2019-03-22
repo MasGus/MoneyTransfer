@@ -12,19 +12,13 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author Maria.Guseva
  */
-public class AccountRepositoryImpl implements AccountRepository {
-    private static volatile AccountRepository instance;
+public enum AccountRepositoryImpl implements AccountRepository {
+    INSTANCE;
     private static Map<Long, Account> accountMap = new ConcurrentHashMap<>();
     private static AtomicLong lastAccountId = new AtomicLong();
     private static final BigDecimal DEFAULT_BALANCE = BigDecimal.ZERO;
 
-    private AccountRepositoryImpl(){}
-
-    public static synchronized AccountRepository getInstance() {
-        if (instance == null)
-            instance = new AccountRepositoryImpl();
-        return instance;
-    }
+    AccountRepositoryImpl(){}
 
     @Override
     public Long createAccount(){

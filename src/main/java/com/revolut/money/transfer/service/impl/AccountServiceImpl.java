@@ -29,7 +29,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void subtract(Long id, BigDecimal amount) {
         accountRepository.subtractAmount(id, amount);
-
     }
 
     @Override

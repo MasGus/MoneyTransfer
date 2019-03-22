@@ -32,8 +32,8 @@ import java.math.BigDecimal;
 public class AccountController {
     private static final String EXCEPTION_FIELD_NAME = "exception";
     private Gson gson = new GsonBuilder().serializeNulls().create();
-    private static AccountRepository accountRepository = AccountRepositoryImpl.getInstance();
-    private static TransferTransactionRepository transactionRepository = TransferTransactionRepositoryImpl.getInstance();
+    private static AccountRepository accountRepository = AccountRepositoryImpl.INSTANCE;
+    private static TransferTransactionRepository transactionRepository = TransferTransactionRepositoryImpl.INSTANCE;
     private static AccountService accountService = new AccountServiceImpl(accountRepository, transactionRepository);
     private static AccountValidator accountValidator = new AccountValidator(accountRepository);
 

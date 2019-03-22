@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class AccountRepositoryTest {
 
-    private AccountRepository accountRepository = AccountRepositoryImpl.getInstance();
+    private AccountRepository accountRepository = AccountRepositoryImpl.INSTANCE;
     private static final BigDecimal AMOUNT = BigDecimal.TEN;
 
     @Test

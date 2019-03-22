@@ -15,7 +15,7 @@ import org.junit.rules.ExpectedException;
  * @author Maria.Guseva
  */
 public class AccountValidatorTest {
-    private AccountRepository accountRepository = AccountRepositoryImpl.getInstance();
+    private AccountRepository accountRepository = AccountRepositoryImpl.INSTANCE;
     private AccountValidator validator = new AccountValidator(accountRepository);
     private Long accountId;
 
